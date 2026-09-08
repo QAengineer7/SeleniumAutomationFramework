@@ -1,0 +1,6 @@
+com\automation\base\BasePage.class
+com\automation\utils\ScreenshotUtils.class
+com\automation\pages\HomePage.class
+com\automation\pages\DashboardPage.class
+com\automation\pages\LoginPage.class
+com\automation\utils\ConfigReader.class

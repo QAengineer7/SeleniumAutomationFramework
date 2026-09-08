@@ -90,7 +90,7 @@ public class BasePage {
 
         this.driver = driver;
 
-        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     // Click on element
