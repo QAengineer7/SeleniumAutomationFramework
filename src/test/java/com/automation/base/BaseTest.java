@@ -38,8 +38,10 @@
 package com.automation.base;
 
 import com.automation.utils.ConfigReader;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -50,9 +52,17 @@ public class BaseTest {
     @BeforeMethod
     public void setUp() {
 
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
 
-        driver.manage().window().maximize();
+        driver = new ChromeDriver(options);
+
+        // Explicit fixed size as a fallback — on CI machines without a real
+        // interactive desktop session, maximize()/--start-maximized can
+        // silently fail and leave the browser at a small default size,
+        // which can collapse the responsive sidebar and hide elements
+        // like the "PRODUCTION" menu.
+        driver.manage().window().setSize(new Dimension(1920, 1080));
 
         driver.get(ConfigReader.getProperty("url"));
 
