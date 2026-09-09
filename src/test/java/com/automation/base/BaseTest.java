@@ -37,14 +37,16 @@
 
 package com.automation.base;
 
+import com.automation.listeners.TestListener;
 import com.automation.utils.ConfigReader;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 
+@Listeners(TestListener.class)
 public class BaseTest {
 
     protected WebDriver driver;
@@ -72,13 +74,11 @@ public class BaseTest {
         System.out.println("KingIT application opened successfully");
     }
 
-    @AfterMethod
-    public void tearDown() {
-
-        if (driver != null) {
-            driver.quit();
-        }
-
-        System.out.println("Browser closed successfully");
-    }
+    // NOTE: driver.quit() is intentionally NOT done here anymore.
+    // TestNG fires ITestListener.onTestSuccess/onTestFailure AFTER
+    // @AfterMethod runs — so quitting the browser in an @AfterMethod would
+    // kill the session before TestListener gets a chance to capture a
+    // failure screenshot (this caused "invalid session id" errors).
+    // TestListener now owns quitting the driver, right after it finishes
+    // logging the result / capturing the screenshot for that test.
 }

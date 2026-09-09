@@ -33,6 +33,24 @@ pipeline {
     post {
         always {
             echo 'Pipeline execution completed.'
+
+            // Archive the ExtentReport HTML + failure screenshots so they
+            // show up as downloadable artifacts on the build page, even
+            // when the test stage fails.
+            archiveArtifacts artifacts: 'test-output/**', allowEmptyArchive: true
+
+            // If the HTML Publisher plugin is installed on this Jenkins,
+            // this also renders a clickable "QA Automation Report" link
+            // directly on the build page. If the plugin isn't installed,
+            // remove this block — archiveArtifacts above is enough on its own.
+            publishHTML(target: [
+                allowMissing: true,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'test-output',
+                reportFiles: 'ExtentReport.html',
+                reportName: 'QA Automation Report'
+            ])
         }
 
         success {
