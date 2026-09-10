@@ -37,7 +37,6 @@
 package com.automation.pages;
 
 import com.automation.base.BasePage;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -47,23 +46,13 @@ public class DashboardPage extends BasePage {
         super(driver);
     }
 
-    // "PRODUCTION" sidebar heading — stable marker, not tied to a specific
-    // test account name (unlike "test production 1", which is account-specific)
-    private By productionSidebarHeading = By.xpath(
-            "//*[normalize-space()='PRODUCTION']"
-    );
+    private By productionSidebarHeading = By.id("navbarDropdown");
 
-
-    // Verify Dashboard is displayed
     public boolean isDashboardDisplayed() {
-
         return isDisplayed(productionSidebarHeading);
     }
 
-
-    // Get current URL
     public String getDashboardUrl() {
-
         return getCurrentUrl();
     }
 }
